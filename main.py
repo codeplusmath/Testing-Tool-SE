@@ -91,7 +91,8 @@ class ScholarshipForm():
             print('\n')
         else:
             print('No application found')
-            
+        return 0
+        
     def removedata(self):
         name = input("Enter name: ")
         path = f'./db/{name}.dat'
@@ -100,12 +101,13 @@ class ScholarshipForm():
             print('Application removed successfully...\n')
         else:
             print('No application found')
+        return 0
     
     def alldata(self):
         path = f'./db/'
         for f in os.listdir(path):
             print(f)
-
+        return 0
 
     def updatedata(self):
         path = f'./db/{self.name}.dat'
@@ -128,6 +130,7 @@ class ScholarshipForm():
             
         except:
             print('cannot update')
+        return 0
 
     def menu(self):
         print("\n\t0.Menu \n\t1.Add Form \n\t2.Show Form Data \n\t3.Show All Forms \n\t4.Remove Data \n\t5.Exit")

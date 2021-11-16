@@ -49,6 +49,26 @@ class ScholarshipFormTests(unittest.TestCase):
         test.savetofile()
         path = f'./db/{test.name}.dat'
         self.assertTrue(os.path.exists(path))
+    
+    def test_viewdata(self):
+        test = create_test_form()
+        
+        self.assertEqual(test.viewdata(), 0)
+    
+    def test_viewalldata(self):
+        test = create_test_form()
+        
+        self.assertEqual(test.alldata(), 0)
+    
+    def test_viewalldata(self):
+        test = create_test_form()
+        
+        self.assertEqual(test.updatedata(), 0)
+    
+    def test_viewalldata(self):
+        test = create_test_form()
+        
+        self.assertEqual(test.removedata(), 0)
 
 
 if __name__ == '__main__':
