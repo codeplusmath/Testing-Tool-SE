@@ -114,9 +114,8 @@ class ScholarshipForm():
         print('You can update one value at a time')
         param1 = input('Which data to update: ')
         value = input('Enter new data: ')
-        #param = param1.replace(' ', '').lower()
         try:
-            newline = param1 + ': ' + str(value)
+            newline = param1.split(': ')[0] + ': ' + str(value)
             reading_file = open(path, "r")
             new_file_content = ""
             for line in reading_file:
@@ -127,19 +126,6 @@ class ScholarshipForm():
             writing_file = open(path, "w")
             writing_file.write(new_file_content)
             writing_file.close()
-            '''
-            line = param1
-            f = open(path, 'w')
-            newline = param1 + str(value)
-            f.replace(line, newline)
-            n = open('./db/tmp', 'w')
-            n.write(f)
-            f.close()
-            n.close()
-            os.remove(path)
-            os.rename('./db/tmp', path)
-            self.param = value
-            '''
             
         except:
             print('cannot update')
