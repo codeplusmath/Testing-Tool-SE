@@ -78,19 +78,17 @@ class ScholarshipForm():
             print('Application successfully submitted')
             f.close()
 
-        else:
-            print('Application already recieved\nYou can edit application\n')
-
 
     def viewdata(self):
         name = input("Enter name: ")
         path = f'./db/{name}.dat'
         if os.path.exists(path):
-            f = open(path, 'r')
-            print(f)
+            with open(path, 'r') as f:
+                print(f.read())
             print('\n')
         else:
             print('No application found')
+            return 1
         return 0
         
     def removedata(self):
@@ -101,6 +99,7 @@ class ScholarshipForm():
             print('Application removed successfully...\n')
         else:
             print('No application found')
+            return 1
         return 0
     
     def alldata(self):
@@ -110,26 +109,41 @@ class ScholarshipForm():
         return 0
 
     def updatedata(self):
-        path = f'./db/{self.name}.dat'
-        print('\nYou can update one value at a time')
+        name = input("Enter name: ")
+        path = f'./db/{name}.dat'
+        print('You can update one value at a time')
         param1 = input('Which data to update: ')
         value = input('Enter new data: ')
-        param = param1.replace(' ', '').lower()
+        #param = param1.replace(' ', '').lower()
         try:
-            line = param1 + str(self.param)
-            f = open(path)
-            neline = param1 + str(value)
+            newline = param1 + ': ' + str(value)
+            reading_file = open(path, "r")
+            new_file_content = ""
+            for line in reading_file:
+                stripped_line = line.strip()
+                new_line = stripped_line.replace(param1, newline)
+                new_file_content += new_line +"\n"
+            reading_file.close()
+            writing_file = open(path, "w")
+            writing_file.write(new_file_content)
+            writing_file.close()
+            '''
+            line = param1
+            f = open(path, 'w')
+            newline = param1 + str(value)
             f.replace(line, newline)
             n = open('./db/tmp', 'w')
-            n.writelines(f)
+            n.write(f)
             f.close()
             n.close()
             os.remove(path)
             os.rename('./db/tmp', path)
             self.param = value
+            '''
             
         except:
             print('cannot update')
+            return 1
         return 0
 
     def menu(self):
@@ -151,21 +165,21 @@ class ScholarshipForm():
                 print('-------Academic Details-------')
                 collegename = input('Enter College Name: ')
                 branch = input('Enter Branch: ')
-                currentyear = int(input('Enter Current Year: '))
+                currentyear = input('Enter Current Year: ')
                 cgpa = float(input('Enter Cgpa: '))
                 self.insert_academicdetails(collegename, branch, currentyear, cgpa)
                 
                 print('-------Family Details-------')
                 noofmembers = int(input('Enter No of family members: '))
-                fathername = input('Enter Father Name')
+                fathername = input('Enter Father Name:')
                 fatheroccupation = input('Enter Father Occupation: ')
-                fathereducation = input('Enter Father Education')
-                mothername = input('Enter Mother Name')
+                fathereducation = input('Enter Father Education: ')
+                mothername = input('Enter Mother Name: ')
                 motheroccupation = input('Enter Mother Occupation: ')
-                mothereducation = input('Enter Mother Education')
+                mothereducation = input('Enter Mother Education:')
                 annualincome = int(input('Enter Annual Income: '))
                 self.insert_familydetails(noofmembers, fathername, fatheroccupation, fathereducation, mothername, motheroccupation, mothereducation, annualincome)
-                self.addingDataToFile()
+                self.savetofile()
             
             elif (choice == 2):
                 self.viewdata()
